@@ -1,0 +1,7 @@
+.env
+*.wav
+*.onnx
+*.onnx.json
+en_US-lessac-medium*
+__pycache__/
+*.pyc
