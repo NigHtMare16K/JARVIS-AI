@@ -9,7 +9,7 @@ from app.core.security import (
 )
 from app.db.models import User
 from app.schemas.user import Token, UserCreate, UserLogin, UserResponse
-
+from app.dependencies.auth import get_current_user
 
 router = APIRouter(
     prefix="/auth",
@@ -66,3 +66,7 @@ def login(payload: UserLogin, db: Session = Depends(get_db)):
     token = create_access_token(user.email)
 
     return Token(access_token=token)
+
+@router.get("/me", response_model=UserResponse)
+def me(current_user: User = Depends(get_current_user)):
+    return current_user
