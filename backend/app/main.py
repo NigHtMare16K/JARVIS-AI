@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+from app.router import auth
+
+app = FastAPI(title="Jarvis")
+
+app.include_router(auth.router)
 
 @app.get('/')
 def welcome():
-    return "Heloo I am Jarvis"
+    return {"message": "Hello I am Jarvis"}
