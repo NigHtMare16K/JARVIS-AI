@@ -34,4 +34,4 @@ def generate_response(query: str):
         "answer": response.content
     }
 
-print(generate_response("What is Machine Learning"))
+# print(generate_response("What is Machine Learning"))
