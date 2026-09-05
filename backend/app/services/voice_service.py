@@ -14,10 +14,8 @@ def process_voice(audio_path: str):
     # 3. Text → Speech
     output_path = text_to_speech(response["answer"])
 
-    # return {
-    #     "text": text,
-    #     "answer": response["answer"],
-    #     "audio": audio_output
-    # }
-
-    return output_path
+    return {
+        "text": text,
+        "answer": response["answer"],
+        "audio": output_path
+    }
