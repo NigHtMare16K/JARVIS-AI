@@ -21,4 +21,12 @@ def run_once():
         print("❌ Server error:", response.status_code, response.text)
 
 if __name__ == "__main__":
-    run_once()
+    
+    print("🤖 Jarvis started!")
+    print("Press Ctrl+C to stop")
+
+    try:
+        while True:
+            run_once()
+    except KeyboardInterrupt:
+        print("\n👋 Jarvis stopped.")
