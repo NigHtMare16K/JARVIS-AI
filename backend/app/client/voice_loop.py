@@ -1,11 +1,14 @@
 import requests
 from app.client.voice_client import record_voice, play_audio, INPUT_FILE
+from app.client.wake_word import wait_for_wake_word
 
 SERVER_URL = "http://127.0.0.1:8000/voice/"
 
 SESSION_ID = "user_1"
 
 def run_once():
+    wait_for_wake_word()
+    
     print("🎙️ Listening... speak now")
     record_voice()
 
