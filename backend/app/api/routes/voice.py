@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File, Form
 from fastapi.responses import FileResponse
 import tempfile
 
@@ -11,13 +11,16 @@ router = APIRouter(
 
 
 @router.post("/")
-def voice(audio: UploadFile = File(...)):
+def voice(
+    audio: UploadFile = File(...),
+    session_id: str = Form(...)
+):
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp:
         temp.write(audio.file.read())
         audio_path = temp.name
 
-    result = process_voice(audio_path)
+    result = process_voice(audio_path, session_id)
 
     return FileResponse(
         result["audio"],

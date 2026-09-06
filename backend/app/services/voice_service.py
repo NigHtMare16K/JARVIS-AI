@@ -3,13 +3,13 @@ from app.services.llm_service import generate_response
 from app.services.tts_service import text_to_speech
 
 
-def process_voice(audio_path: str):
+def process_voice(audio_path: str, session_id: str):
 
     # 1. Speech → Text
     text = transcribe_audio(audio_path)
 
     # 2. Text → LLM Response
-    response = generate_response(text)
+    response = generate_response(text, session_id)
 
     # 3. Text → Speech
     output_path = text_to_speech(response["answer"])
