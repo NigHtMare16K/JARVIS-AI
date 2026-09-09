@@ -1,7 +1,7 @@
 from app.services.stt_service import transcribe_audio
 from app.services.llm_service import generate_response
 from app.services.tts_service import text_to_speech
-
+from app.agent.graph import run_agent
 
 def process_voice(audio_path: str, session_id: str):
 
@@ -9,13 +9,13 @@ def process_voice(audio_path: str, session_id: str):
     text = transcribe_audio(audio_path)
 
     # 2. Text → LLM Response
-    response = generate_response(text, session_id)
+    answer = run_agent(text, session_id)
 
     # 3. Text → Speech
-    output_path = text_to_speech(response["answer"])
+    output_path = text_to_speech(answer)
 
     return {
         "text": text,
-        "answer": response["answer"],
+        "answer": answer,
         "audio": output_path
     }

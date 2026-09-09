@@ -1,34 +1,51 @@
 from langgraph.graph import StateGraph, START, END
+from langgraph.prebuilt import ToolNode, tools_condition
+from langchain_core.messages import HumanMessage, SystemMessage
 
 from app.agent.state import AgentState
-from app.services.llm_service import generate_response
+from app.services.llm_service import llm, get_session_history
+from app.tools.system import open_application
+
+tools = [open_application]
+llm_with_tools = llm.bind_tools(tools)
+
+SYSTEM_PROMPT = SystemMessage(content=(
+    "You are Jarvis, an intelligent AI voice assistant. "
+    "Answer the user's query clearly and helpfully. "
+    "Use tools when the user asks you to perform an action like opening an app."
+))
 
 
 def llm_node(state: AgentState):
-    result = generate_response(
-        state["query"],
-        state["session_id"]
-    )
-
-    return {
-        "response": result["answer"]
-    }
+    response = llm_with_tools.invoke([SYSTEM_PROMPT] + state["messages"])
+    return {"messages": [response]}
 
 
 builder = StateGraph(AgentState)
-
 builder.add_node("llm", llm_node)
-
+builder.add_node("tools", ToolNode(tools))
 builder.add_edge(START, "llm")
-builder.add_edge("llm", END)
+builder.add_conditional_edges("llm", tools_condition)
+builder.add_edge("tools", "llm")
 
 graph = builder.compile()
 
 
-result = graph.invoke({
-    "query": "What is a LLM",
-    "session_id": "user-1",
-    "response": ""
-})
+def run_agent(query: str, session_id: str) -> str:
+    history = get_session_history(session_id)
 
-print(result["response"])
+    result = graph.invoke({
+        "messages": history.messages + [HumanMessage(content=query)],
+        "session_id": session_id
+    })
+
+    answer = result["messages"][-1].content
+
+    history.add_user_message(query)
+    history.add_ai_message(answer)
+
+    return answer
+
+
+if __name__ == "__main__":
+    print(run_agent("What is google collabin 20 words", "user-1"))
