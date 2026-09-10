@@ -4,9 +4,10 @@ from langchain_core.messages import HumanMessage, SystemMessage
 
 from app.agent.state import AgentState
 from app.services.llm_service import llm, get_session_history
-from app.tools.system import open_application
+from app.tools.system import open_application,search_youtube,play_youtube
+from app.tools.songs import play_spotify
 
-tools = [open_application]
+tools = [open_application,search_youtube,play_youtube,play_spotify]
 llm_with_tools = llm.bind_tools(tools)
 
 SYSTEM_PROMPT = SystemMessage(content=(
