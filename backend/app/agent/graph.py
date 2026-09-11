@@ -6,8 +6,10 @@ from app.agent.state import AgentState
 from app.services.llm_service import llm, get_session_history
 from app.tools.system import open_application,search_youtube,play_youtube
 from app.tools.songs import play_spotify
+from app.tools.files import open_file_or_folder
+from app.tools.web_search import web_search_results
 
-tools = [open_application,search_youtube,play_youtube,play_spotify]
+tools = [open_application,search_youtube,play_youtube,play_spotify,open_file_or_folder,web_search_results]
 llm_with_tools = llm.bind_tools(tools)
 
 SYSTEM_PROMPT = SystemMessage(content=(

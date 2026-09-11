@@ -6,7 +6,7 @@ from langchain_core.tools import tool
 
 @tool
 def play_spotify(song: str) -> str:
-    """Open the Spotify desktop app and search for a song."""
+    """Open Spotify desktop app, search for a song, and play it."""
 
     song = song.strip()
 
@@ -15,7 +15,8 @@ def play_spotify(song: str) -> str:
 
     encoded_song = urllib.parse.quote(song)
 
-    pyautogui.hotkey("win","r")
+    # Open Spotify
+    pyautogui.hotkey("win", "r")
     time.sleep(1)
 
     pyautogui.write("spotify:")
@@ -23,7 +24,8 @@ def play_spotify(song: str) -> str:
 
     time.sleep(4)
 
-    pyautogui.hotkey("ctrl","l")
+    # Search
+    pyautogui.hotkey("ctrl", "l")
     time.sleep(1)
 
     pyautogui.write(f"spotify:search:{encoded_song}")
@@ -31,11 +33,13 @@ def play_spotify(song: str) -> str:
 
     time.sleep(4)
 
-    pyautogui.press("tab")
-    pyautogui.press("tab")
+    # Navigate to first result
+    pyautogui.press("tab", presses=3, interval=0.3)
     pyautogui.press("enter")
 
     time.sleep(2)
 
-    return f"Playing  {song} on Spotify."
+    # Play
+    pyautogui.press("space")
 
+    return f"Playing {song} on Spotify."
