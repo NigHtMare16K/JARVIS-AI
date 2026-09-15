@@ -1,7 +1,12 @@
+print("🔥 INGEST FILE LOADED")
+
 from app.rag.loader import load_chunk
+
+print("✅ loader imported")
+
 from app.rag.vectorstore import create_vector_store
 
-
+print("✅ vectorstore imported")
 def ingest_pdf(pdf_path: str):
 
     # 1. Load and split PDF
@@ -20,6 +25,8 @@ def ingest_pdf(pdf_path: str):
 
 if __name__ == "__main__":
 
-    pdf_path = input("Enter PDF path: ")
+    print("🚀 ingest.py started")
+
+    pdf_path = "C:/Users/ASHUTOSH/Downloads/Ashutosh_Kumar_Resume_UPL_NextGenIntern.pdf"
 
     ingest_pdf(pdf_path)
