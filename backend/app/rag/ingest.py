@@ -7,6 +7,7 @@ print("✅ loader imported")
 from app.rag.vectorstore import create_vector_store
 
 print("✅ vectorstore imported")
+
 def ingest_pdf(pdf_path: str):
 
     # 1. Load and split PDF
@@ -25,7 +26,7 @@ def ingest_pdf(pdf_path: str):
 
 if __name__ == "__main__":
 
-    print("🚀 ingest.py started")
+    print("🚀 Starting ingestion...")
 
     pdf_path = "C:/Users/ASHUTOSH/Downloads/Ashutosh_Kumar_Resume_UPL_NextGenIntern.pdf"
 
